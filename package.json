@@ -1,0 +1,30 @@
+{
+  "name": "teamprofilegen",
+  "version": "1.0.0",
+  "description": "Team Profile generator to describe memebers and their information",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose test/*",
+    "start": "node index.js",
+    "reset": "node reset.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KiloWattDot/TeamProfileGen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KiloWattDot/TeamProfileGen/issues"
+  },
+  "homepage": "https://github.com/KiloWattDot/TeamProfileGen#readme",
+  "dependencies": {
+    "inquirer": "^8.2.0"
+  },
+    "devDependencies": {  
+    "jest": "^27.4.7"
+  }
+  
+
+}
