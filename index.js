@@ -1,14 +1,24 @@
 
 // Program Start 
-
 console.log('Welcome to the Team Generator!')
 console.log('Use "npm run reset" to reset the dist/ folder')
 
+// import packages
 const inquirer = require('inquirer');
 const fs = require('fs');
 
+// import classes
+const Employee = require('./lib/employee')
+const Manager = require('./lib/manager')
+const Engineer = require('./lib/engineer')
+const Intern = require('./lib/intern')
 
-const questions = [
+
+
+
+
+// Prompt questions
+const ManagerQuestions = [
     {
       type: "input",
       name: "Manager",
@@ -29,6 +39,9 @@ const questions = [
       name: "ManagerOffice",
       message: "What is your Team manager's Office number?",
     },
+  ];
+  
+  const EmployeeQuestions = [
     {
       type: "list",
       name: "NextTeamMember",
@@ -77,9 +90,26 @@ const questions = [
       message: "What is college your Intern is attending?",
     },
     
-  ];
+  ]
   
-  
+// function writeToFile(fileName, data) {
+
+//     fs.writeFile("", data, (err) => {
+//         err
+//           ? console.log(err)
+//           : console.log("GENERATED-README.md file was created and written!");
+//       });
+
+// }
+
+// function init() {
+//     return inquirer.prompt(ManagerQuestions).then((data) => {
+//         inquirer.prompt(EmployeeQuestions).then((data)) => { 
+//         writeToFile("GENERATED-README.md", generateMarkdown(data));
+//         }
+//       });
+// }
+
 
 
 
@@ -93,20 +123,3 @@ console.log('Thanks for providing your Team profile!')
 
   
 
-// // TODO: Create a function to write README file
-// function writeToFile(fileName, data) {
-
-//     fs.writeFile("GENERATED-README.md", data, (err) => {
-//         err
-//           ? console.log(err)
-//           : console.log("GENERATED-README.md file was created and written!");
-//       });
-
-// }
-
-// // TODO: Create a function to initialize app
-// function init() {
-//     return inquirer.prompt(questions).then((data) => {
-//         writeToFile("GENERATED-README.md", generateMarkdown(data));
-//       });
-// }
