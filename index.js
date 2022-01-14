@@ -11,110 +11,160 @@ const fs = require('fs');
 const Employee = require('./lib/employee')
 const Manager = require('./lib/manager')
 const Engineer = require('./lib/engineer')
-const Intern = require('./lib/intern')
+const Intern = require('./lib/intern');
 
 
+function init() {
+  startPage()
+  teamBuilder();
 
+}
 
 
 // Prompt questions
-const ManagerQuestions = [
+
+function teamBuilder() { 
+  inquirer.prompt([
     {
       type: "input",
-      name: "Manager",
-      message: "What is your Team manager's name?",
+      name: "name",
+      message: "What is your Team member's name?",
+    },{ 
+      type: "list",
+      name: "role",
+      message: "Select this memeber's role?",
+      choices: ["Engineer", "Intern", "Manager"]
     },{ 
       type: "input",
-      name: "ManagerId",
+      name: "id",
       message:
-        "What is your Team manager's id number?",
+        "What is your Team member's id number?",
     },
     {
       type: "input",
-      name: "ManagerEmail",
-      message: "What is your Team manager's Email?",
-    },
-    {
-      type: "input",
-      name: "ManagerOffice",
-      message: "What is your Team manager's Office number?",
-    },
-  ];
+      name: "email",
+      message: "What is your Team member's email?",
+    }])
+    .then(({name, role, id, email}) => {
+        let roleInfo = '';
+        if(role === "Engineer") {
+          roleInfo = "Engineer's github username";
+        } else if(role === "Intern") {
+            roleInfo = "Intern's school off attendace";
+        } else {
+            roleInfo = "Manager's Office number";
+        }
+        inquirer.prompt([{
+          message: `input the ${roleInfo}`,
+          name: "roleInfo"
+        },
+        {
+          type: "list",
+          message: "Would you like to add another team member?",
+          choices: ["yes", "no"],
+          name: "addMember"
+      }]) 
+      // matching roles and adding the input to new memeber
+      .then(({roleInfo, addMember}) =>{
+          let newMember;
+          if(role === "Engineer") {
+            newMember = new Engineer(name, id, email, roleInfo)
+          } else if(role === "Intern") {
+              newMember = new Intern (name, id, email, roleInfo)
+          } else {
+              newMember = new Manager(name, id, email, roleInfo)
+          }
+          // creating the html for the team memebers card and checking 
+          // if there are more members being added. If not complete the html page
+          createCard(newMember)
+          .then(() => {
+            if(addMember === "yes") {
+              teamBuilder();
+            } else {
+              completePage();
+            }
+        })
+
+      })
   
-  const EmployeeQuestions = [
-    {
-      type: "list",
-      name: "NextTeamMember",
-      message: "Which type of team meber would you like to add?",
-      choices: ["Engineer", "Intern", "I don't want to add any more team members"],
-    },
-    {
-      type: "input",
-      name: "Engineer",
-      message: "What is your Engineer's name?",
-    },
-    {
-      type: "input",
-      name: "EngineerId",
-      message: "What is your Engineer's id number?",
-    },
-    {
-      type: "input",
-      name: "EngineerEmail",
-      message: "What is your Engineer's email?",
-    },
-    {
-      type: "input",
-      name: "EngineerGit",
-      message: "What is your Engineer's Github username?",
-      
-    },
-    {
-      type: "input",
-      name: "Intern",
-      message: "What is your Intern's name?",
-    },
-    {
-      type: "input",
-      name: "InternId",
-      message: "What is your Intern's id number?",
-    },
-    {
-      type: "input",
-      name: "InternEmail",
-      message: "What is your Intern's email?",
-    },
-    {
-      type: "input",
-      name: "InternSchool",
-      message: "What is college your Intern is attending?",
-    },
-    
-  ]
-  
-// function writeToFile(fileName, data) {
+  });
+}
 
-//     fs.writeFile("", data, (err) => {
-//         err
-//           ? console.log(err)
-//           : console.log("GENERATED-README.md file was created and written!");
-//       });
+// Creates header and body html
 
-// }
+function startPage() {
+  const html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <title>Team Profile</title>
+  </head>
+  <body>`;
 
-// function init() {
-//     return inquirer.prompt(ManagerQuestions).then((data) => {
-//         inquirer.prompt(EmployeeQuestions).then((data)) => { 
-//         writeToFile("GENERATED-README.md", generateMarkdown(data));
-//         }
-//       });
-// }
+  fs.writeFile("./dist/Team.html", html, (err) => {
+      err
+      ? console.log(err)
+      : console.log('Started')
+  })
+
+}
+
+function createCard(member) {
+  return new Promise((resolve, reject) => {
+      const name = member.getName();
+      const role = member.getRole();
+      const id = member.getId();
+      const email = member.getEmail();
+      let data = '';
+      if(role === "Engineer") {
+        const github = member.getGithub();
+        console.log(`Engineer's github username: ${github}`)
+        data = `<div>${github}</div>`;
+      } else if (role === "Intern") {
+        const school = member.getSchool();
+        console.log(`Intern's University: ${school}`)
+        data = `<div> ${github}</div>`
+
+      } else {
+        const officeNumber = member.getOfficeNumber();
+        console.log(`Manager's Office Number: ${officeNumber}`)
+        data = `<div>${officeNumber}</div>`;
+      }
+      console.log("Building Teammate profile")
+      fs.appendFile("./dist/Team.html", data, (err) => {
+        err
+          ?  reject(`Error is: ${err}`)
+          : resolve();
+      })
+
+  })
+}
 
 
+function completePage() {
+  const html = `<div>
+   DONE </div>
 
+   </body>
+   </html>`;
+
+  fs.appendFile("./dist/Team.html", html, (err) => {
+    err
+      ? console.log(err)
+      : console.log("END")
+  })
+
+}
+ 
+
+
+init()
 
 // Program End
-console.log('Thanks for providing your Team profile!')
+// console.log('Thanks for providing your Team profile!')
   
   
   

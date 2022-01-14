@@ -11,14 +11,14 @@ describe('Employee', () => {
 })
 
 
-describe('getName', () => {
-    it('should return the name of the employee', () => { 
-        const grace = new Employee('Grace', 5, 'grace@gmail.com')
+// describe('getName', () => {
+//     it('should return the name of the employee', () => { 
+//         const grace = new Employee('Grace', 5, 'grace@gmail.com')
 
-        grace.getName();
+//         grace.getName();
 
-        expect(grace).toEqual('')
+//         expect(grace).toEqual('')
 
-        employee.
-    })
-})
+//         employee.
+//     })
+// })
