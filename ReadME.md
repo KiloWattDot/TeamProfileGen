@@ -1,5 +1,8 @@
 # Team Profile Generator
-  https://github.com/KilowattDot/TeamProfileGen
+  Repo: https://github.com/KilowattDot/TeamProfileGen
+
+  Video: https://www.youtube.com/watch?v=iJrMxDwt1U8
+  
   
   ## Description
   In this project, I was tasked with creating a generator for Manager's to create their team's profile of their information. There is e role options that consist of Manager, Engineer, and Intern in which of those have their own special criteria of information to be displayed. The questionnaire captures the role and asks for the information linked to that role outside of the basic information that they all need like email, id, and name.
