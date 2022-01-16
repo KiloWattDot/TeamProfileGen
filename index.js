@@ -97,18 +97,41 @@ function startPage() {
   <html lang="en">
   <head>
       <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      <title>Team Profile</title>
+      <link href="../dist/style.css" rel="stylesheet">
+      <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+      <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" data-auto-replace-svg="nest"></script>
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <title>Team Profile Page</title>
   </head>
-  <body>`;
+  <body>
+      <header>
+          <h3>TEAM PROFILE</h3>
+          <p> Meet the crew!</p>
+      </header>
+  
+      <div class="container">
+          <div class="row justify-content-center header">
+            <div class="col-12 col-sm-8 col-lg-6">
+              <!-- Section Heading-->
+              <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+         
+         
+          <div class="row">
+`;
 
   fs.writeFile("./dist/Team.html", html, (err) => {
-      err
-      ? console.log(err)
-      : console.log('Started')
-  })
+      if (err) { 
+        console.log(err);
+      }
+  });
+    console.log("Started")
 
 }
 
@@ -122,16 +145,88 @@ function createCard(member) {
       if(role === "Engineer") {
         const github = member.getGithub();
         console.log(`Engineer's github username: ${github}`)
-        data = `<div>${github}</div>`;
+        data = `
+        <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+          <!-- Team Thumb-->
+          <div class="advisor_thumb"><img src="../images/programmer.png" alt="">
+            <!-- Social Info-->
+            <div class="social-info">
+                <a href="#"> 
+                <i class="fab fa-github"></i>  <span>Github </span>
+                </a>
+                <br><span>${github}</span>
+            </div>
+          
+            </div>
+
+          <!-- Team Details-->
+          <div class="single_advisor_details_info">
+            <h6>${name}</h6>
+            <p class="designation">${role}</p>
+            <p class="designation ">${email}</p>
+            <p class="designation">id: ${id}</p>
+          </div>
+        </div>
+
+      </div>`;
       } else if (role === "Intern") {
         const school = member.getSchool();
         console.log(`Intern's University: ${school}`)
-        data = `<div> ${github}</div>`
+        data = ` <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single_advisor_profile wow fadeInUp intern" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+          <!-- Team Thumb-->
+          <div class="advisor_thumb"><img src="../images/graduating-student.png" alt="">
+            <!-- Social Info-->
+            <div class="social-info">
+                <a href="#"> 
+                    <i class="fas fa-user-graduate"></i> <span>Education</span>
+                </a>
+                <br><span>${school}</span>
+               
+            </div>
+          
+            </div>
+
+          <!-- Team Details-->
+          <div class="single_advisor_details_info">
+            <h6>${name}</h6>
+            <p class="designation">${role}</p>
+            <p class="designation ">${email}</p>
+            <p class="designation">id: ${id}</p>
+          </div>
+        </div>
+
+      </div>`
 
       } else {
         const officeNumber = member.getOfficeNumber();
         console.log(`Manager's Office Number: ${officeNumber}`)
-        data = `<div>${officeNumber}</div>`;
+        data = ` <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+          <!-- Team Thumb-->
+          <div class="advisor_thumb"><img src="../images/manager.png" alt="">
+            <!-- Social Info-->
+            <div class="social-info">
+                <a href="#"> 
+                    <i class="fas fa-map-pin"></i> <span>Office</span>
+                </a>
+                <br><span>${officeNumber}</span>
+               
+            </div>
+          
+            </div>
+
+            <!-- Team Details-->
+            <div class="single_advisor_details_info">
+              <h6>${name}</h6>
+              <p class="designation">${role}</p>
+              <p class="designation ">${email}</p>
+              <p class="designation">id: ${id}</p>
+            </div>
+          </div>
+
+      </div>`;
       }
       console.log("Building Teammate profile")
       fs.appendFile("./dist/Team.html", data, (err) => {
@@ -145,11 +240,18 @@ function createCard(member) {
 
 
 function completePage() {
-  const html = `<div>
-   DONE </div>
+  const html = ` </div>
+          
 
-   </body>
-   </html>`;
+  </div>
+    
+
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>`;
 
   fs.appendFile("./dist/Team.html", html, (err) => {
     err
